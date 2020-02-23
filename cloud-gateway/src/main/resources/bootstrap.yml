@@ -23,8 +23,8 @@ spring:
             enabled: true
         routes:
           - id: geteway-dispatch
-            uri: https://www.baidu.com
+            uri: http://localhost/s
             predicates:
               - Path=/madp-xx-api/**
             filters:
-              - Parameter=order,20000
+#              - Parameter=order,20000

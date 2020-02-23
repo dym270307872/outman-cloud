@@ -20,7 +20,7 @@ import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicReference;
 
-@Component
+//@Component
 @Slf4j
 public class XssAndSqlFilter implements GlobalFilter, Ordered {
 
