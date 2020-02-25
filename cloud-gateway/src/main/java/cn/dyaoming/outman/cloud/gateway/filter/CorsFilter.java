@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 import static io.netty.handler.codec.http.cookie.CookieHeaderNames.MAX_AGE;
 import static org.springframework.web.cors.CorsConfiguration.ALL;
 
-@Component
+//@Component
 @Slf4j
 public class CorsFilter implements GlobalFilter, Ordered {
 

@@ -1,6 +1,5 @@
 package cn.dyaoming.outman.cloud.gateway.filter;
 
-import cn.dyaoming.outman.cloud.gateway.common.BaseGatewayFilterFactory;
 import io.netty.buffer.ByteBufAllocator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -21,6 +20,7 @@ import reactor.core.publisher.Mono;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,9 +28,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Component
+//@Component
 @Slf4j
-public class ParameterGatewayFilterFactory implements GlobalFilter, Ordered {
+public class PostParameterGatewayFilterFactory implements GlobalFilter, Ordered {
 
     //提取版本号及接口编码正则
     String regVersionAndInterfaceCode = "(?<=/[v|V])([^/]*)/([^/]*)";
@@ -43,22 +43,10 @@ public class ParameterGatewayFilterFactory implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        log.debug("ParameterGatewayFilterFactory运行");
+        log.error("ParameterGatewayFilterFactory运行");
         ServerHttpRequest serverHttpRequest = exchange.getRequest();
-        String method = serverHttpRequest.getMethodValue();
-
-        Map<String,Object> params = new HashMap<>();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.putAll(serverHttpRequest.getHeaders());
-        if(headers.containsKey(SessionObjectKey)){
-            //TODO 依据实际情况追加参数，也可以在此拦截器前增加登录认证拦截器，在对应拦截器中处理此参数。
-            Object sessionObject = headers.getFirst(SessionObjectKey);
-            params.put(SessionObjectKey,sessionObject);
-        }
 
 
-        if ("POST".equals(method)) {
             //从请求里获取Post请求体
             String bodyStr = resolveBodyFromRequest(serverHttpRequest);
             //TODO 得到Post请求的请求参数后，做你想做的事
@@ -77,51 +65,7 @@ public class ParameterGatewayFilterFactory implements GlobalFilter, Ordered {
             };
             //封装request，传给下一级
             return chain.filter(exchange.mutate().request(request).build());
-        } else if ("GET".equals(method)) {
-            URI uri = serverHttpRequest.getURI();
-            StringBuilder query = new StringBuilder();
-            String originalQuery = uri.getRawQuery();
 
-            if (StringUtils.hasText(originalQuery)) {
-                query.append(originalQuery);
-                if (originalQuery.charAt(originalQuery.length() - 1) != '&') {
-                    query.append('&');
-                }
-            }
-
-            Matcher param = Pattern.compile(regVersionAndInterfaceCode).matcher(uri.getPath());
-            if (param.find()) {
-                String parameter = param.group();
-                query.append("version=" + parameter.split("/")[0]);
-                query.append('&');
-                query.append("interfaceCode=" + parameter.split("/")[1]);
-                query.append('&');
-            }else{
-                Matcher macInterfaceCode = Pattern.compile(regInterfaceCode).matcher(uri.getPath());
-                if(macInterfaceCode.find()) {
-                    query.append("interfaceCode=" + macInterfaceCode.group());
-                    query.append('&');
-                }
-            }
-
-            for(String key : params.keySet()){
-                query.append(key + "=" + params.get(key));
-                query.append('&');
-            }
-            query.deleteCharAt(query.length()-1);
-            log.error(query.toString());
-            try {
-                URI newUri = UriComponentsBuilder.fromUri(uri)
-                        .replaceQuery(query.toString())
-                        .build(true)
-                        .toUri();
-                ServerHttpRequest request = exchange.getRequest().mutate().uri(newUri).build();
-                return chain.filter(exchange.mutate().request(request).build());
-            } catch (RuntimeException ex) {
-                throw new IllegalStateException("Invalid URI query: \"" + query.toString() + "\"");
-            }
-        }
-        return chain.filter(exchange);
     }
 
     /**
@@ -135,18 +79,18 @@ public class ParameterGatewayFilterFactory implements GlobalFilter, Ordered {
 
         AtomicReference<String> bodyRef = new AtomicReference<>();
         body.subscribe(buffer -> {
-//			CharBuffer charBuffer = StandardCharsets.UTF_8.decode(buffer.asByteBuffer());
-//			DataBufferUtils.release(buffer);
-//			bodyRef.set(charBuffer.toString());
-            byte[] bytes = new byte[buffer.readableByteCount()];
-            buffer.read(bytes);
-            DataBufferUtils.release(buffer);
-            try {
-                String bodyString = new String(bytes, "utf-8");
-                System.out.println(bodyString);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+			CharBuffer charBuffer = StandardCharsets.UTF_8.decode(buffer.asByteBuffer());
+			DataBufferUtils.release(buffer);
+			bodyRef.set(charBuffer.toString());
+//            byte[] bytes = new byte[buffer.readableByteCount()];
+//            buffer.read(bytes);
+//            DataBufferUtils.release(buffer);
+//            try {
+//                String bodyString = new String(bytes, "utf-8");
+//                System.out.println(bodyString);
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
         });
         //获取request body
         return bodyRef.get();
