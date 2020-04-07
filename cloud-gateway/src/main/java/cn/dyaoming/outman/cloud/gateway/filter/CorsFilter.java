@@ -1,9 +1,8 @@
 package cn.dyaoming.outman.cloud.gateway.filter;
 
+import cn.dyaoming.outman.cloud.gateway.common.BaseGlobalFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
-import org.springframework.cloud.gateway.filter.GlobalFilter;
-import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -19,7 +18,7 @@ import static org.springframework.web.cors.CorsConfiguration.ALL;
 
 //@Component
 @Slf4j
-public class CorsFilter implements GlobalFilter, Ordered {
+public class CorsFilter extends BaseGlobalFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

@@ -1,4 +1,4 @@
-package cn.dyaoming.outman.cloud.gateway.filter;
+package cn.dyaoming.outman.cloud.gateway.filter.other;
 
 import cn.dyaoming.outman.cloud.gateway.common.AppAccessException;
 import cn.dyaoming.outman.cloud.gateway.common.AuthFailLog;

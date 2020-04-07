@@ -1,5 +1,6 @@
 package cn.dyaoming.outman.cloud.gateway.filter;
 
+import cn.dyaoming.outman.cloud.gateway.common.BaseGlobalFilter;
 import io.netty.buffer.ByteBufAllocator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -20,9 +21,9 @@ import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicReference;
 
-//@Component
+@Component
 @Slf4j
-public class XssAndSqlFilter implements GlobalFilter, Ordered {
+public class XssAndSqlFilter extends BaseGlobalFilter {
 
 
     @Override
