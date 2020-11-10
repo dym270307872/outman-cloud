@@ -11,6 +11,6 @@ public class DemoServer {
     private RestTemplate restTemplate;
 
     public String test(){
-        return restTemplate.postForObject("http://CLOUD-SERVICE/demo/test","",String.class);
+        return restTemplate.postForObject("http://cloud-service/demo/test","",String.class);
     }
 }

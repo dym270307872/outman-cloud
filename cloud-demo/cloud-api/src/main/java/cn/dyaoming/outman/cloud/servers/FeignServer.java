@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Component
-@FeignClient("CLOUD-SERVICE")
+@FeignClient("cloud-service")
 public interface FeignServer {
 
     @RequestMapping(value = "/demo/test", method = RequestMethod.POST)
