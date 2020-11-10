@@ -8,11 +8,10 @@
     <artifactId>outman-cloud</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
-        <module>cloud-api</module>
-        <module>cloud-bean</module>
-        <module>cloud-service</module>
         <module>cloud-gateway</module>
         <module>cloud-auth</module>
+        <module>cloud-modules</module>
+        <module>cloud-demo</module>
     </modules>
     <packaging>pom</packaging>
 
