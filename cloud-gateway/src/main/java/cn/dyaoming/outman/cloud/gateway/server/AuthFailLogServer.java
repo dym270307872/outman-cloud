@@ -1,6 +1,5 @@
 package cn.dyaoming.outman.cloud.gateway.server;
 
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -8,8 +7,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class AuthFailLogServer {
 
-    public void logstore(Object obj){
-        log.info(JSON.toJSONString(obj));
+    public void logstore(Object obj) {
+//        log.info(JSON.toJSONString(obj));
     }
 
 }

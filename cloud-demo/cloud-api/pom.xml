@@ -5,7 +5,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>outman-cloud</artifactId>
+        <artifactId>cloud-demo</artifactId>
         <groupId>cn.dyaoming.outman</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>

@@ -3,7 +3,6 @@ package cn.dyaoming.outman.cloud.gateway.handle;
 import cn.dyaoming.outman.cloud.gateway.common.AppAccessException;
 import cn.dyaoming.outman.cloud.gateway.common.AuthFailLog;
 import cn.dyaoming.outman.cloud.gateway.server.AuthFailLogServer;
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
