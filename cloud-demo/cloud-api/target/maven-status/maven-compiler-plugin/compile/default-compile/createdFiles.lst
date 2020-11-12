@@ -1,0 +1,4 @@
+cn\dyaoming\outman\cloud\servers\DemoServer.class
+cn\dyaoming\outman\cloud\CloudApiApplication.class
+cn\dyaoming\outman\cloud\servers\FeignServer.class
+cn\dyaoming\outman\cloud\constrollers\DemoConstroller.class
